@@ -16,6 +16,7 @@ func (receiver Response) ToBytes() []byte {
 		receiver.StatusCode,
 		receiver.ReasonPhrase,
 		CLRF,
+		CLRF,
 	)
 	return []byte(res)
 }
