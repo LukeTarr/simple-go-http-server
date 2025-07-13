@@ -11,7 +11,7 @@ type Response struct {
 }
 
 func (receiver Response) ToBytes() []byte {
-	res := fmt.Sprintf("%s %s %s %s%s",
+	res := fmt.Sprintf("%s %s %s%s%s",
 		receiver.Version,
 		receiver.StatusCode,
 		receiver.ReasonPhrase,
