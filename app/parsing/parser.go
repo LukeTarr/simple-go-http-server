@@ -2,7 +2,7 @@ package parsing
 
 import "fmt"
 
-const CLRF = "\\r\\n"
+const CLRF = "\r\n"
 
 type Response struct {
 	Version      string
