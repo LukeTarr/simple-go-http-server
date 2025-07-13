@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/codecrafters-io/http-server-starter-go/app/connections"
 	"net"
 	"os"
 )
@@ -14,9 +15,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = listener.Accept()
-	if err != nil {
-		fmt.Println("Error accepting connection: ", err.Error())
-		os.Exit(1)
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			fmt.Println("Error accepting connection: ", err.Error())
+			os.Exit(1)
+		}
+		go connections.HandleTcpConnection(&conn)
 	}
+
 }
