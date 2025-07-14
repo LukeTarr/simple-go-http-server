@@ -20,3 +20,19 @@ func (receiver Response) ToBytes() []byte {
 	)
 	return []byte(res)
 }
+
+func GetNotFound() Response {
+	return Response{
+		Version:      "HTTP/1.1",
+		StatusCode:   "404",
+		ReasonPhrase: "Not Found",
+	}
+}
+
+func GetOk() Response {
+	return Response{
+		Version:      "HTTP/1.1",
+		StatusCode:   "200",
+		ReasonPhrase: "OK",
+	}
+}

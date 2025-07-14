@@ -1,9 +1,9 @@
 package connections
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/codecrafters-io/http-server-starter-go/app/parsing"
-	"io"
 	"net"
 )
 
@@ -17,29 +17,29 @@ func HandleTcpConnection(c *net.Conn) {
 		}
 	}()
 
-	for {
-		b := make([]byte, 1024)
-		_, err := conn.Read(b)
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Println("Error Reading, ", err.Error())
-			break
-		}
-
-		response := parsing.Response{
-			Version:      "HTTP/1.1",
-			StatusCode:   "200",
-			ReasonPhrase: "OK",
-		}
-
-		_, err = conn.Write(response.ToBytes())
-		if err != nil {
-			fmt.Println("Error Writing, ", err.Error())
-			break
-		}
-
+	//for {
+	input := make([]byte, 4096)
+	_, err := conn.Read(input)
+	if err != nil {
+		fmt.Println("Error Reading, ", err.Error())
+		//break
 	}
+
+	requestBytes := string(bytes.TrimRight(input, "\x00"))
+	req := parsing.ParseRequest(requestBytes)
+
+	resp := parsing.GetOk()
+
+	if req.Target != "/" {
+		resp = parsing.GetNotFound()
+	}
+
+	_, err = conn.Write(resp.ToBytes())
+	if err != nil {
+		fmt.Println("Error Writing, ", err.Error())
+		//break
+	}
+
+	//}
 
 }
