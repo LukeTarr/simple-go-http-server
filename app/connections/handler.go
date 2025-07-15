@@ -3,7 +3,8 @@ package connections
 import (
 	"bytes"
 	"fmt"
-	"github.com/codecrafters-io/http-server-starter-go/app/parsing"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing"
+
 	"net"
 )
 
@@ -27,10 +28,11 @@ func HandleTcpConnection(c *net.Conn) {
 	requestBytes := string(bytes.TrimRight(input, "\x00"))
 	req := parsing.ParseRequest(requestBytes)
 
-	resp := parsing.GetOk("")
+	resp := parsing.GetOk("<h1>Hello World!</h1>")
+	resp.Headers = map[string]string{"Content-Type": "text/html"}
 
 	if req.Target != "/" {
-		resp = parsing.GetNotFound()
+		resp = parsing.GetNotFound("<h1>Not Found</h1>")
 	}
 
 	_, err = conn.Write(resp.ToBytes())

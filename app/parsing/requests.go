@@ -1,7 +1,6 @@
 package parsing
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -28,8 +27,5 @@ func ParseRequest(input string) Request {
 		Version: version,
 		Headers: nil,
 	}
-
-	fmt.Println("Parsed into this: ", req)
-
 	return req
 }

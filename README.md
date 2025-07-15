@@ -1,37 +1,28 @@
-[![progress-banner](https://backend.codecrafters.io/progress/http-server/1c772a37-ea53-4264-b1ef-8b55547ea2f5)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# Simple Go HTTP Server
 
-This is a starting point for Go solutions to the
-["Build Your Own HTTP server" Challenge](https://app.codecrafters.io/courses/http-server/overview).
+This started out as a CodeCrafters.io guided project.
 
-[HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) is the
-protocol that powers the web. In this challenge, you'll build a HTTP/1.1 server
-that is capable of serving multiple clients.
+You can visit the original challenge [here](https://app.codecrafters.io/courses/http-server/introduction)
 
-Along the way you'll learn about TCP servers,
-[HTTP request syntax](https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html),
-and more.
+I dropped off that course after the 4th or so stage, and have decided to make this an actual HTTP server package which could be pulled into any project and used to serve HTTP requests.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+This won't be a production-grade HTTP server and should *NOT* be used in an actual web-based application, but I would like for its final state to be such that it could be used in that regard.
 
-# Passing the first stage
+---
 
-The entry point for your HTTP server implementation is in `app/main.go`. Study
-and uncomment the relevant code, and push your changes to pass the first stage:
+### Current State
+- [x] Serve basic HTTP Requests (a successful 200 OK or 404 Not Found)
+- [x] Send user-defined response headers
+- [x] Automatically calculate and send `Content-Length` response headers
+- [x] Concurrent request handling, allow multiple client requests to be executed at once
+- [ ] Parse out request headers
+- [ ] Make use of certain key request headers that alter behaviour
+- [ ] Allow users to pull give their own request paths and content-returning functions
+- [ ] Better error handling to be as resilient as possible
+- [ ] Toggleable logging with structured logs
+- [ ] Cleanup project so that it can be used as a library in a basic HTTP application
+- [ ] Whatever else I can think of and realistically implement!
 
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
-```
+---
 
-Time to move on to the next stage!
-
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `go (1.24)` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `app/main.go`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+Thank you for checking out this repo and let me know if you have any suggestions, or if it helped you learn some TCP basics!
