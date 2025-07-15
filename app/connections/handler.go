@@ -17,7 +17,6 @@ func HandleTcpConnection(c *net.Conn) {
 		}
 	}()
 
-	//for {
 	input := make([]byte, 4096)
 	_, err := conn.Read(input)
 	if err != nil {
@@ -28,7 +27,7 @@ func HandleTcpConnection(c *net.Conn) {
 	requestBytes := string(bytes.TrimRight(input, "\x00"))
 	req := parsing.ParseRequest(requestBytes)
 
-	resp := parsing.GetOk()
+	resp := parsing.GetOk("")
 
 	if req.Target != "/" {
 		resp = parsing.GetNotFound()
@@ -39,7 +38,5 @@ func HandleTcpConnection(c *net.Conn) {
 		fmt.Println("Error Writing, ", err.Error())
 		//break
 	}
-
-	//}
 
 }
