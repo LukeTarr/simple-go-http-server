@@ -59,3 +59,13 @@ func GetOk(body string) Response {
 		Headers:      make(map[string]string),
 	}
 }
+
+func GetBadRequest(body string) Response {
+	return Response{
+		Version:      "HTTP/1.1",
+		StatusCode:   "400",
+		ReasonPhrase: "Bad Request",
+		Body:         body,
+		Headers:      make(map[string]string),
+	}
+}
