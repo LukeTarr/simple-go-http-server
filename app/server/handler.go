@@ -1,8 +1,7 @@
-package connections
+package server
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"github.com/LukeTarr/simple-go-http-server/app/parsing"
 	"io"
@@ -10,7 +9,7 @@ import (
 	"net"
 )
 
-func HandleTcpConnection(c *net.Conn) {
+func HandleTcpConnection(c *net.Conn, functionPaths []FunctionPath) {
 	conn := *c
 	defer func() {
 		err := conn.Close()
@@ -34,11 +33,20 @@ func HandleTcpConnection(c *net.Conn) {
 	requestBytes := string(bytes.TrimRight(input, "\x00"))
 	req, err := parsing.ParseRequest(requestBytes)
 
-	if errors.Is(err, parsing.ParseRequestError) {
-		resp = parsing.GetBadRequest("")
+	didFindFunction := false
+
+	for i := 0; i < len(functionPaths); i++ {
+
+		if functionPaths[i].Path == req.Target {
+			if functionPaths[i].Method == req.Method {
+				didFindFunction = true
+				returnBody := functionPaths[i].HandlerFunction(req)
+				resp.Body = returnBody
+			}
+		}
 	}
 
-	if req.Target != "/" {
+	if !didFindFunction {
 		resp = parsing.GetNotFound("")
 	}
 
