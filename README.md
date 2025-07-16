@@ -15,11 +15,11 @@ This won't be a production-grade HTTP server and should *NOT* be used in an actu
 - [x] Send user-defined response headers
 - [x] Automatically calculate and send `Content-Length` response headers
 - [x] Concurrent request handling, allow multiple client requests to be executed at once
-- [ ] Parse out request headers
+- [x] Parse out request headers
 - [ ] Make use of certain key request headers that alter behaviour
 - [ ] Allow users to pull give their own request paths and content-returning functions
 - [ ] Better error handling to be as resilient as possible
-- [ ] Toggleable logging with structured logs
+- [x] Logging
 - [ ] Cleanup project so that it can be used as a library in a basic HTTP application
 - [ ] Whatever else I can think of and realistically implement!
 
