@@ -1,26 +1,28 @@
 package main
 
 import (
-	"github.com/LukeTarr/simple-go-http-server/app/parsing"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing/request"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing/response"
 	"github.com/LukeTarr/simple-go-http-server/app/server"
 )
 
 func main() {
-	app := server.Server{
-		Port:    8080,
-		Address: "0.0.0.0",
-	}
+	app := server.NewServer(8080, "localhost")
 
-	app.Get("/test", func(request parsing.Request) string {
-		return "test"
+	app.Get("/test", func(request request.Request) *response.Response {
+		return response.GetOk("test")
 	})
 
-	app.Get("/user-agent", func(request parsing.Request) string {
-		return request.Headers["User-Agent"]
+	app.Get("/user-agent", func(request request.Request) *response.Response {
+		return response.GetOk(request.Headers["User-Agent"])
 	})
 
-	app.Post("/echo", func(request parsing.Request) string {
-		return request.Body
+	app.Get("/auth-check", func(request request.Request) *response.Response {
+		return response.GetUnauthorized("Unauthorized")
+	})
+
+	app.Post("/echo", func(request request.Request) *response.Response {
+		return response.GetOk(request.Body)
 	})
 
 	app.Listen()

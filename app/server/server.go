@@ -2,7 +2,8 @@ package server
 
 import (
 	"fmt"
-	"github.com/LukeTarr/simple-go-http-server/app/parsing"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing/request"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing/response"
 	"net"
 	"os"
 	"strconv"
@@ -13,6 +14,14 @@ type Server struct {
 	Port       int
 	Address    string
 	handlerMap []FunctionPath
+}
+
+func NewServer(port int, address string) *Server {
+	return &Server{
+		Port:       port,
+		Address:    address,
+		handlerMap: make([]FunctionPath, 0),
+	}
 }
 
 func (receiver *Server) Listen() {
@@ -41,7 +50,7 @@ func (receiver *Server) Listen() {
 
 }
 
-func (receiver *Server) Get(path string, handlerFunction func(request parsing.Request) string) {
+func (receiver *Server) Get(path string, handlerFunction func(request request.Request) *response.Response) {
 	receiver.handlerMap = append(receiver.handlerMap, FunctionPath{
 		Path:            strings.ToLower(path),
 		Method:          "GET",
@@ -49,7 +58,7 @@ func (receiver *Server) Get(path string, handlerFunction func(request parsing.Re
 	})
 }
 
-func (receiver *Server) Post(path string, handlerFunction func(request parsing.Request) string) {
+func (receiver *Server) Post(path string, handlerFunction func(request request.Request) *response.Response) {
 	receiver.handlerMap = append(receiver.handlerMap, FunctionPath{
 		Path:            strings.ToLower(path),
 		Method:          "POST",
@@ -57,7 +66,7 @@ func (receiver *Server) Post(path string, handlerFunction func(request parsing.R
 	})
 }
 
-func (receiver *Server) Put(path string, handlerFunction func(request parsing.Request) string) {
+func (receiver *Server) Put(path string, handlerFunction func(request request.Request) *response.Response) {
 	receiver.handlerMap = append(receiver.handlerMap, FunctionPath{
 		Path:            strings.ToLower(path),
 		Method:          "PUT",
@@ -65,7 +74,7 @@ func (receiver *Server) Put(path string, handlerFunction func(request parsing.Re
 	})
 }
 
-func (receiver *Server) Patch(path string, handlerFunction func(request parsing.Request) string) {
+func (receiver *Server) Patch(path string, handlerFunction func(request request.Request) *response.Response) {
 	receiver.handlerMap = append(receiver.handlerMap, FunctionPath{
 		Path:            strings.ToLower(path),
 		Method:          "PATCH",
@@ -73,7 +82,7 @@ func (receiver *Server) Patch(path string, handlerFunction func(request parsing.
 	})
 }
 
-func (receiver *Server) Delete(path string, handlerFunction func(request parsing.Request) string) {
+func (receiver *Server) Delete(path string, handlerFunction func(request request.Request) *response.Response) {
 	receiver.handlerMap = append(receiver.handlerMap, FunctionPath{
 		Path:            strings.ToLower(path),
 		Method:          "DELETE",

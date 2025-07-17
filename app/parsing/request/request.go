@@ -1,8 +1,9 @@
-package parsing
+package request
 
 import (
 	"errors"
 	"fmt"
+	"github.com/LukeTarr/simple-go-http-server/app/parsing"
 	"strings"
 	"time"
 )
@@ -18,7 +19,7 @@ type Request struct {
 var ParseRequestError = errors.New("failed to parse HTTP Request")
 
 func ParseRequest(input string) (Request, error) {
-	splitInput := strings.SplitN(input, CLRF, 2)
+	splitInput := strings.SplitN(input, parsing.CLRF, 2)
 
 	firstLine := strings.Split(splitInput[0], " ")
 	if len(firstLine) != 3 {
@@ -30,7 +31,7 @@ func ParseRequest(input string) (Request, error) {
 	target := firstLine[1]
 	version := firstLine[2]
 
-	headersAndBody := strings.SplitN(splitInput[1], CLRF+CLRF, 2)
+	headersAndBody := strings.SplitN(splitInput[1], parsing.CLRF+parsing.CLRF, 2)
 	if len(headersAndBody) != 2 {
 		fmt.Println("Parse Request Error: header + body not len of 2: ", headersAndBody)
 		return Request{}, ParseRequestError
@@ -42,7 +43,7 @@ func ParseRequest(input string) (Request, error) {
 	headerMap := make(map[string]string)
 
 	if header != "" {
-		headerSlice := strings.Split(header, CLRF)
+		headerSlice := strings.Split(header, parsing.CLRF)
 
 		for i := 0; i < len(headerSlice); i++ {
 			splitCurrentHeader := strings.Split(headerSlice[i], ": ")
